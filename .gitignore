@@ -1,6 +1,7 @@
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
+/materials/db_schema.dia.autosave
 
 ### STS ###
 .apt_generated

@@ -13,5 +13,4 @@ public class MainController {
         model.addAttribute("user", "Folk-Lore");
         return "index";
     }
-
 }
