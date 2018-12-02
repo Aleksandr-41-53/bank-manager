@@ -1,0 +1,16 @@
+<form th:fragment="login" th:action="@{/login}" method="POST">
+    <input type="text" name="username" placeholder="Username"/>
+    <input type="password" name="password" placeholder="Password"/>
+    <button type="submit">login</button><span>&nbsp;or&nbsp;</span><a th:href="@{/registration}">Registration</a>
+</form>
+
+<form th:fragment="registration" th:action="@{/registration}" method="POST">
+    <input type="text" name="username" placeholder="Username" />
+    <input type="password" name="password" placeholder="Password" />
+    <input type="password" name="password2" placeholder="Password confirm" />
+    <input type="text" name="firstName" placeholder="First name" />
+    <input type="text" name="lastName" placeholder="Last name" />
+    <input type="text" name="secondName" placeholder="Second name" />
+    <input type="text" name="address" placeholder="Address name" />
+    <button type="submit">Registration</button>
+</form>

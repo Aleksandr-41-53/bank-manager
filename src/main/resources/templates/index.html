@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymleaf.org"
-      xmlns:sec="http://www.thymleaf.org/thymleaf-extras-springsecurity3">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Bank-manager</title>
-</head>
+<head th:replace="fragments/header :: header"></head>
+
 <body>
-    <h1>Hello, <span th:text="${user}" th:remove="tag">Guest!</span></h1>
+    <div sec:authorize="isAnonymous()" th:replace="fragments/forms :: login"></div>
 </body>
+
 </html>
