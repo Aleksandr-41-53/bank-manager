@@ -19,11 +19,11 @@ public class User implements UserDetails {
     @NotBlank(message = "Password cannot be empty!")
     private String password;
     @NotBlank(message = "First name cannot be empty!")
-    private String first_name;
+    private String firstName;
     @NotBlank(message = "Last name cannot be empty!")
-    private String last_name;
+    private String lastName;
     @NotBlank(message = "Second name cannot be empty!")
-    private String second_name;
+    private String secondName;
     @NotBlank(message = "Address cannot be empty!")
     private String address;
     private boolean active;
@@ -33,9 +33,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Invoice> invoices;
 
+
+    public User() {
+    }
 
     // GETTER & SETTER - UserDetails
     @Override
@@ -100,28 +103,28 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getSecond_name() {
-        return second_name;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getAddress() {
