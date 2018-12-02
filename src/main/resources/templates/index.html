@@ -6,7 +6,13 @@
 <head th:replace="fragments/header :: header"></head>
 
 <body>
-    <div sec:authorize="isAnonymous()" th:replace="fragments/forms :: login"></div>
+    <h3>
+        <div sec:authorize="isAnonymous()">
+            <div>
+                <span>Hello! U need </span><a th:href="@{/login}">login</a>.
+            </div>
+        </div>
+    </h3>
 </body>
 
 </html>

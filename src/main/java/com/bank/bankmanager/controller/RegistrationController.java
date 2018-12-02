@@ -52,10 +52,4 @@ public class RegistrationController {
         }
         return "redirect:/login";
     }
-
-    @RequestMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("title", "Login");
-        return "login";
-    }
 }
