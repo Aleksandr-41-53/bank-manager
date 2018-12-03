@@ -3,7 +3,6 @@ package com.bank.bankmanager.service;
 import com.bank.bankmanager.domain.Role;
 import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.repos.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,36 +15,18 @@ import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepo userRepo;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
-    }
-
-    public List<User> findAll() {
-        return userRepo.findAll();
-    }
-
-    public List<User> findByActive(boolean active) {
-        return userRepo.findByActive(active);
-    }
-
-    public boolean userOn(User user) {
-        if (user.isActive()) return false;
-        user.setActive(true);
-        userRepo.save(user);
-        return true;
-    }
-
-    public boolean userOff(User user) {
-        if (!user.isActive()) return false;
-        user.setActive(false);
-        userRepo.save(user);
-        return true;
     }
 
     public boolean addUser(User user) {
@@ -56,6 +37,28 @@ public class UserService implements UserDetailsService {
         user.setRoles(Collections.singleton(Role.CLIENT));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+        userRepo.save(user);
+        return true;
+    }
+
+    public List<User> findAll() {
+        return userRepo.findAll();
+    }
+
+    public List<User> findByActive(boolean active) {
+        return userRepo.findByActive(active);
+    }
+
+    public boolean userEnable(User user) {
+        if (user.isActive()) return false;
+        user.setActive(true);
+        userRepo.save(user);
+        return true;
+    }
+
+    public boolean userDisable(User user) {
+        if (!user.isActive()) return false;
+        user.setActive(false);
         userRepo.save(user);
         return true;
     }
