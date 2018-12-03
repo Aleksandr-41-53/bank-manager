@@ -1,7 +1,13 @@
 <form th:fragment="login" th:action="@{/login}" method="post">
+    <div th:if="${param.error}">
+        Invalid username and password or locked user.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
     <input type="text" name="username" placeholder="Username"/>
     <input type="password" name="password" placeholder="Password"/>
-    <button type="submit">login</button><span>&nbsp;or&nbsp;</span><a th:href="@{/registration}">Registration</a>
+    <input type="submit" value="Sign In"/><span>&nbsp;or&nbsp;</span><a th:href="@{/registration}">Registration</a>
 </form>
 
 <form th:fragment="registration" th:action="@{/registration}" method="post">
