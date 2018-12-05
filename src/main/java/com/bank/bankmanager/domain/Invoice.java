@@ -1,13 +1,8 @@
 package com.bank.bankmanager.domain;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.util.Set;
 
 @Entity
 @Table(name = "invoice")
@@ -21,8 +16,7 @@ public class Invoice {
     private User client;
 
     @NotBlank(message = "Invoice number cannot be empty!")
-    @Length(max = 255, message = "Invoice number to long (more than 30)")
-    private String number;
+    private double number;
 
     @Column(name = "cash", columnDefinition = "MONEY")
     private BigDecimal cash;
@@ -31,7 +25,7 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(User user, String number, BigDecimal cash) {
+    public Invoice(User user, double number, BigDecimal cash) {
         this.client = user;
         this.number = number;
         this.cash = cash;
@@ -53,11 +47,11 @@ public class Invoice {
         this.client = client;
     }
 
-    public String getNumber() {
+    public double getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(double number) {
         this.number = number;
     }
 

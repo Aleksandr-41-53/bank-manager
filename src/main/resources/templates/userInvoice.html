@@ -10,7 +10,32 @@
 <nav th:replace="fragments/navs :: navbar"></nav>
 
 <div class="container mt-3">
-    <h3 th:text="${'Hello, ' + user.firstName + '!'}"></h3>
+
+    <table th:if="${!invoices.isEmpty()}" class="table table-bordered table-hover">
+        <caption>Invoice list</caption>
+        <thead>
+        <tr>
+            <td scope="col">id</td>
+            <td scope="col">#</td>
+            <td scope="col">Cash</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i : ${invoices}" th:object="${i}">
+            <th scope="row" th:text="*{id}"></th>
+            <td th:text="*{number}"></td>
+            <td th:text="*{cash}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${invoices.isEmpty()}" class="alert alert-warning alert-dismissible fade show" role="alert">
+        This user don't have invoices
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
 </div>
 
 <div th:replace="fragments/assets :: script"></div>

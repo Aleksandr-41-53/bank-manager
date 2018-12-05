@@ -10,7 +10,8 @@
     <nav th:replace="fragments/navs :: navbar"></nav>
 
     <div class="container mt-3">
-        <table class="table table-bordered table-hover">
+
+        <table th:if="${!users.isEmpty()}" class="table table-bordered table-hover">
             <caption>User list</caption>
             <thead>
             <tr>
@@ -28,7 +29,7 @@
             <tbody>
             <tr th:each="u : ${users}" th:object="${u}">
                 <th scope="row" th:text="*{id}"></th>
-                <td><a th:href="@{'/user/' + *{id}}" th:text="*{username}"></a></td>
+                <td><a th:href="@{'/invoice/' + *{id}}" th:text="*{username}"></a></td>
                 <td th:text="*{lastName}"></td>
                 <td th:text="*{firstName}"></td>
                 <td th:text="*{secondName}"></td>
@@ -39,6 +40,7 @@
             </tr>
             </tbody>
         </table>
+
     </div>
 
     <div th:replace="fragments/assets :: script"></div>

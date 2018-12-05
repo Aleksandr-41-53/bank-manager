@@ -19,4 +19,13 @@ public class InvoiceService {
     public List<Invoice> getInvoicesByUser(User user) {
         return invoiceRepo.findAllByClient(user);
     }
+
+    public boolean addInvoice(Invoice invoice, User client) {
+        Invoice invoiceFromDb = invoiceRepo.findByClient(client);
+        if (invoiceFromDb != null) return false;
+
+        invoice.setClient(client);
+        invoiceRepo.save(invoice);
+        return true;
+    }
 }
