@@ -1,39 +1,47 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head th:replace="fragments/header :: header"></head>
+    <head th:replace="fragments/assets :: header"></head>
 
 <body>
 
-    <table>
-        <caption>User list</caption>
-        <thead>
+    <nav th:replace="fragments/navs :: navbar"></nav>
+
+    <div class="container mt-3">
+        <table class="table table-bordered table-hover">
+            <caption>User list</caption>
+            <thead>
             <tr>
-                <td>id</td>
-                <td>Username</td>
-                <td>Last name</td>
-                <td>First name</td>
-                <td>Second name</td>
-                <td>Address</td>
-                <td>Active</td>
-                <td>Roles</td>
+                <td scope="col">id</td>
+                <td scope="col">Username</td>
+                <td scope="col">Last name</td>
+                <td scope="col">First name</td>
+                <td scope="col">Second name</td>
+                <td scope="col">Address</td>
+                <td scope="col">Active</td>
+                <td scope="col">Roles</td>
+                <td scope="col">Edit</td>
             </tr>
-        </thead>
-        <tbody>
-            <tr th:each="u : ${user}">
-                <td th:text="${u.id}"></td>
-                <td th:text="${u.username}"></td>
-                <td th:text="${u.lastName}"></td>
-                <td th:text="${u.firstName}"></td>
-                <td th:text="${u.secondName}"></td>
-                <td th:text="${u.address}"></td>
-                <td th:text="${u.active}"></td>
-                <td><span th:each="r : ${u.roles}" th:text="${r} + '; '"></span></td>
-                <td><a th:href="@{/user/u.id}">Edit</a></td>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}" th:object="${u}">
+                <th scope="row" th:text="*{id}"></th>
+                <td><a th:href="@{'/user/' + *{id}}" th:text="*{username}"></a></td>
+                <td th:text="*{lastName}"></td>
+                <td th:text="*{firstName}"></td>
+                <td th:text="*{secondName}"></td>
+                <td th:text="*{address}"></td>
+                <td th:text="*{active}"></td>
+                <td><span th:each="r : *{roles}" th:text="${r} + ' '"></span></td>
+                <td><a th:href="@{'/user/' + *{id} + '/profile'}">Edit</a></td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/assets :: script"></div>
 
 </body>
 

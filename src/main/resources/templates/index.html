@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head th:replace="fragments/header :: header"></head>
+    <head th:replace="fragments/assets :: header"></head>
 
 <body>
-    <h3>
-        <div sec:authorize="isAnonymous()">
-            <div>
-                <span>Hello! U need </span><a th:href="@{/login}">login</a>.
-            </div>
-        </div>
-    </h3>
+
+    <nav th:replace="fragments/navs :: navbar"></nav>
+
+    <div class="container mt-3">
+        <h3 th:text="${'Hello, ' + user.firstName + '!'}"></h3>
+    </div>
+
+    <div th:replace="fragments/assets :: script"></div>
+
 </body>
 
 </html>

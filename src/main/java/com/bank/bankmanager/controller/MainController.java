@@ -14,9 +14,11 @@ public class MainController {
 
     @GetMapping("/")
     public String index(
+            @AuthenticationPrincipal User user,
             Model model
     ) {
         model.addAttribute("title", appName);
+        model.addAttribute("user", user);
         return "index";
     }
 }
