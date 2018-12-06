@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class InvoiceService {
@@ -20,6 +21,17 @@ public class InvoiceService {
 
     public List<Invoice> getInvoicesByUser(User user) {
         return invoiceRepo.findAllByClient(user);
+    }
+
+    // TODO: Заглушка, возврашает рандом
+    public String getGenerateNumberFor3Order() {
+        Random random = new Random();
+        return String.valueOf(random.nextInt(10));
+    }
+
+    public String getGenerateNumberFor5Order() {
+        Random random = new Random();
+        return String.valueOf(random.nextInt(9000000) + 1000000);
     }
 
     public boolean addInvoice(User user, Map<String, String> form) {

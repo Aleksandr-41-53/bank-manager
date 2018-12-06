@@ -16,6 +16,7 @@
         <thead>
         <tr>
             <td scope="col">id</td>
+            <td scope="col">user id</td>
             <td scope="col">#</td>
             <td scope="col">Cash</td>
         </tr>
@@ -23,6 +24,7 @@
         <tbody>
         <tr th:each="i : ${invoices}" th:object="${i}">
             <th scope="row" th:text="*{id}"></th>
+            <td th:text="*{client.id}"></td>
             <td th:text="*{number}"></td>
             <td th:text="*{cash}"></td>
         </tr>
@@ -35,6 +37,8 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+
+    <hr/>
 
     <form th:replace="fragments/forms :: addInvoice"></form>
 

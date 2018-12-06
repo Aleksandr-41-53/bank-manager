@@ -1,4 +1,6 @@
 <form th:fragment="login" th:action="@{/login}" method="post">
+    <h3>Sing in</h3>
+
     <div th:if="${param.error}" class="alert alert-warning alert-dismissible fade show" role="alert">
         Invalid username and password or locked user.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -25,6 +27,8 @@
 </form>
 
 <form th:fragment="registration" th:action="@{/registration}" method="post">
+    <h3>Add new user</h3>
+
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" name="username" class="form-control" id="username" placeholder="Username">
@@ -61,6 +65,8 @@
 </form>
 
 <form th:fragment="addInvoice" th:action="@{/invoice}" class="form-inline"  method="post">
+    <h5>Add new invoice</h5>
+
      <div class="form-group" hidden>
         <label for="client">Client</label>
         <input type="text" name="client" id="client" th:value="${clientId}" readonly>
