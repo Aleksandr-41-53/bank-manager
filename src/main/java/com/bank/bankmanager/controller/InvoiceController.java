@@ -1,16 +1,13 @@
 package com.bank.bankmanager.controller;
 
-import com.bank.bankmanager.domain.Invoice;
 import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.service.InvoiceService;
 import com.bank.bankmanager.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,11 +15,9 @@ import java.util.Random;
 @RequestMapping("/invoice")
 public class InvoiceController {
     private final InvoiceService invoiceService;
-    private final UserService userService;
 
-    public InvoiceController(InvoiceService invoiceService, UserService userService) {
+    public InvoiceController(InvoiceService invoiceService) {
         this.invoiceService = invoiceService;
-        this.userService = userService;
     }
 
     @GetMapping("{client}")
@@ -44,27 +39,9 @@ public class InvoiceController {
     @PostMapping
     public String addInvoice(
             @RequestParam("client") User user,
-            @RequestParam("order1") String order1,
-            @RequestParam("order2") String order2,
-            @RequestParam("order3") String order3,
-            @RequestParam("order4") String order4,
-            @RequestParam("order5") String order5,
-            @Valid Invoice invoice,
-            BindingResult bindingResult,
-            Model model
+            @RequestParam Map<String, String> form
     ) {
-        String number = order1 + order2 + order3 + order4 + order5;
-
-        if(bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-
-            return "redirect:/invoice/" + user.getId();
-        }
-
-        if (!invoiceService.addInvoice(invoice, number, user))
-            model.addAttribute("error", "Invoice exist!");
-
+        invoiceService.addInvoice(user, form);
         return "redirect:/invoice/" + user.getId();
     }
 }

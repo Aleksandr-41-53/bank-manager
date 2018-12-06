@@ -41,6 +41,15 @@
             </tbody>
         </table>
 
+        <div th:if="${users.isEmpty()}" class="alert alert-warning alert-dismissible fade show" role="alert">
+            Not users!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <form th:replace="fragments/forms :: registration"></form>
+
     </div>
 
     <div th:replace="fragments/assets :: script"></div>

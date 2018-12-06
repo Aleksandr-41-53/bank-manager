@@ -61,19 +61,10 @@
 </form>
 
 <form th:fragment="addInvoice" th:action="@{/invoice}" class="form-inline"  method="post">
-    <div class="form-group" hidden>
+     <div class="form-group" hidden>
         <label for="client">Client</label>
         <input type="text" name="client" id="client" th:value="${clientId}" readonly>
     </div>
-    <div class="form-group" hidden>
-        <label for="number">Number</label>
-        <input type="text" name="number" id="number" value="10000000000000000000" readonly>
-    </div>
-    <div class="form-group" hidden>
-        <label for="cash">Number</label>
-        <input type="text" name="cash" id="cash" value="0" readonly>
-    </div>
-
 
     <div class="form-group mx-sm-3 mb-2">
         <label class="sr-only" for="order1">1 order</label>
@@ -88,6 +79,8 @@
             <option value="643" selected>(RUB) 643</option>
             <option value="978">(EUR) 978</option>
             <option value="849">(USD) 849</option>
+            <option value="826">(GBP) 826</option>
+            <option value="980">(UAH) 980</option>
             <option value=""></option>
         </select>
     </div>
