@@ -21,7 +21,7 @@ public class Transaction {
     )
     private Set<Invoice> transactMotion = new HashSet<>();
 
-    @Column(name = "cash", columnDefinition = "MONEY")
+    @Column(name = "cash", columnDefinition = "DECIMAL(14,2)")
     private BigDecimal cash;
 
     @Temporal(TemporalType.TIME)

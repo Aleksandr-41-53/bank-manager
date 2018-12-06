@@ -16,16 +16,16 @@ public class Invoice {
     private User client;
 
     @NotBlank(message = "Invoice number cannot be empty!")
-    private double number;
+    private String number;
 
-    @Column(name = "cash", columnDefinition = "MONEY")
+    @Column(name = "cash", columnDefinition = "DECIMAL(14,2) DEFAULT '0.00'")
     private BigDecimal cash;
 
 
     public Invoice() {
     }
 
-    public Invoice(User user, double number, BigDecimal cash) {
+    public Invoice(User user, String number, BigDecimal cash) {
         this.client = user;
         this.number = number;
         this.cash = cash;
@@ -47,11 +47,11 @@ public class Invoice {
         this.client = client;
     }
 
-    public double getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(double number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

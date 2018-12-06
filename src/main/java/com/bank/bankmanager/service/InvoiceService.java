@@ -20,10 +20,11 @@ public class InvoiceService {
         return invoiceRepo.findAllByClient(user);
     }
 
-    public boolean addInvoice(Invoice invoice, User client) {
+    public boolean addInvoice(Invoice invoice, String number, User client) {
         Invoice invoiceFromDb = invoiceRepo.findByClient(client);
         if (invoiceFromDb != null) return false;
 
+        invoice.setNumber(number);
         invoice.setClient(client);
         invoiceRepo.save(invoice);
         return true;

@@ -1,10 +1,7 @@
 package com.bank.bankmanager.controller;
 
-import com.bank.bankmanager.domain.Role;
 import com.bank.bankmanager.domain.User;
-import com.bank.bankmanager.service.InvoiceService;
 import com.bank.bankmanager.service.UserService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +35,7 @@ public class UserController {
             Model model
     ) {
         model.addAttribute("user", userAuth);
-        model.addAttribute("client", userService.findByUsername(user.getUsername()));
+        model.addAttribute("client", userService.getByUsername(user.getUsername()));
         return "userProfile";
     }
 }

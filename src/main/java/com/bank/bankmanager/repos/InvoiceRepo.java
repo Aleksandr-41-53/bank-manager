@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface InvoiceRepo extends JpaRepository<Invoice, Long> {
     List<Invoice> findAllByClient(User user);
-    Invoice findByClient(User user);
+    Invoice findByClient(User client);
 }

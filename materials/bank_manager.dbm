@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<database name="bank_manager" encoding="UTF8" lc-collate="ru_RU.UTF-8" lc-ctype="ru_RU.UTF-8" is-template="false" allow-conns="true">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="invoice">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="160"/>
+	<column name="id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="cash">
+		<type name="money" length="0"/>
+	</column>
+	<column name="number">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="user_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<constraint name="invoice_pkey" type="pk-constr" table="public.invoice">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="motion">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="460" y="40"/>
+	<column name="sender_invoice_id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="recipient_invoice_id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<constraint name="motion_pkey" type="pk-constr" table="public.motion">
+		<columns names="sender_invoice_id,recipient_invoice_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="transaction">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="880" y="280"/>
+	<column name="id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="cash">
+		<type name="money" length="0"/>
+	</column>
+	<column name="date">
+		<type name="date" length="0"/>
+	</column>
+	<column name="time">
+		<type name="time" length="0"/>
+	</column>
+	<constraint name="transaction_pkey" type="pk-constr" table="public.transaction">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="user_role">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1160" y="40"/>
+	<column name="user_id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="roles">
+		<type name="character varying" length="255"/>
+	</column>
+</table>
+
+<table name="usr">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1560" y="200"/>
+	<column name="id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="active" not-null="true">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="address">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="first_name">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="last_name">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="password">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="second_name">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="username">
+		<type name="character varying" length="255"/>
+	</column>
+	<constraint name="usr_pkey" type="pk-constr" table="public.usr">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="hibernate_sequence"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<constraint name="fkgxq7hway3bg1fl0durvvk825a" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.usr" table="public.invoice">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk29aslp8j4tm1ktbwp6ld0jivw" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.invoice" table="public.motion">
+	<columns names="recipient_invoice_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk9ikvm0pnij6qt4bcy5cq3ovxw" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.transaction" table="public.motion">
+	<columns names="sender_invoice_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fkfpm8swft53ulq2hl11yplpr5" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.usr" table="public.user_role">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_invoice_usr" type="relfk"
+	 custom-color="#3815e9"
+	 src-table="public.invoice"
+	 dst-table="public.usr" reference-fk="fkgxq7hway3bg1fl0durvvk825a"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_motion_invoice" type="relfk"
+	 custom-color="#ffe235"
+	 src-table="public.motion"
+	 dst-table="public.invoice" reference-fk="fk29aslp8j4tm1ktbwp6ld0jivw"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_motion_transaction" type="relfk"
+	 custom-color="#f0f3e6"
+	 src-table="public.motion"
+	 dst-table="public.transaction" reference-fk="fk9ikvm0pnij6qt4bcy5cq3ovxw"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_user_role_usr" type="relfk"
+	 custom-color="#0fbe98"
+	 src-table="public.user_role"
+	 dst-table="public.usr" reference-fk="fkfpm8swft53ulq2hl11yplpr5"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
