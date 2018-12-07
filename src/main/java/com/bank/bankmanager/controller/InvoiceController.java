@@ -23,7 +23,7 @@ public class InvoiceController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
-        return getString(user, user, model);
+        return getUserInvoiceModel(user, user, model);
     }
 
     @GetMapping("{client}")
@@ -32,10 +32,10 @@ public class InvoiceController {
             @PathVariable User client,
             Model model
     ) {
-        return getString(user, client, model);
+        return getUserInvoiceModel(user, client, model);
     }
 
-    private String getString(@AuthenticationPrincipal User user, @PathVariable User client, Model model) {
+    private String getUserInvoiceModel(@AuthenticationPrincipal User user, @PathVariable User client, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("clientId", client.getId());
         model.addAttribute("rn3", invoiceService.getGenerateNumberFor3Order());

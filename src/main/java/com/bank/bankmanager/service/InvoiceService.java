@@ -19,6 +19,10 @@ public class InvoiceService {
         this.invoiceRepo = invoiceRepo;
     }
 
+    public List<Invoice> getAll() {
+        return invoiceRepo.findAll();
+    }
+
     public List<Invoice> getInvoicesByUser(User user) {
         return invoiceRepo.findAllByClient(user);
     }

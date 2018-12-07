@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Bank-manager</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,7 +18,7 @@
                 <a class="nav-link" th:href="@{/invoice}">Invoice</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link" href="#">Transaction</a>
+                <a class="nav-link" th:href="@{/transaction/{id}/user(id=${user.id})}">Transaction</a>
             </li>
             <!--<li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">-->
             <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
@@ -33,3 +38,5 @@
         </form>
     </div>
 </nav>
+
+</html>

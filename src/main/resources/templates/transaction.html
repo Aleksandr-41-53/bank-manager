@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+    <head th:replace="fragments/assets :: header"></head>
+
+<body>
+
+    <nav th:replace="fragments/navs :: navbar"></nav>
+
+    <div class="container mt-3">
+
+        <table th:if="${!transactions.isEmpty()}" class="table table-bordered table-hover">
+            <caption>Transaction list</caption>
+            <thead>
+            <tr>
+                <td scope="col">id</td>
+                <td scope="col">cash</td>
+                <td scope="col">time</td>
+                <td scope="col">date</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${transactions}" th:object="${t}">
+                <th scope="row" th:text="*{id}"></th>
+                <td th:text="*{cash}"></td>
+                <td th:text="*{time}"></td>
+                <td th:text="*{date}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${transactions.isEmpty()}" class="alert alert-warning alert-dismissible fade show" role="alert">
+            This user don't have transaction
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <hr/>
+
+        <form th:replace="fragments/forms :: transaction"></form>
+
+    </div>
+
+    <div th:replace="fragments/assets :: script"></div>
+
+</body>
+
+</html>
