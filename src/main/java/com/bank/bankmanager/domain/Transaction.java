@@ -13,16 +13,11 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "motion",
-            joinColumns = { @JoinColumn(name = "sender_invoice_id") },
-            inverseJoinColumns = { @JoinColumn(name = "recipient_invoice_id") }
-    )
-    private Set<Invoice> transactMotion = new HashSet<>();
-
     @Column(name = "cash", columnDefinition = "DECIMAL(14,2)")
     private BigDecimal cash;
+
+    @Column(name = "invoiceCash", columnDefinition = "DECIMAL(14,2)")
+    private BigDecimal invoiceCash;
 
     @Temporal(TemporalType.TIME)
     private Date time;
@@ -30,14 +25,24 @@ public class Transaction {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "invoice_sender")
+    private Invoice invoiceSender;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "invoice_recipient")
+    private Invoice invoiceRecipient;
 
     public Transaction() {
     }
 
-    public Transaction(BigDecimal cash, Date time, Date date) {
+    public Transaction(BigDecimal cash, BigDecimal invoiceCash, TransactionType type) {
         this.cash = cash;
-        this.time = time;
-        this.date = date;
+        this.invoiceCash = invoiceCash;
+        this.type = type;
     }
 
     public Long getId() {
@@ -48,20 +53,20 @@ public class Transaction {
         this.id = id;
     }
 
-    public Set<Invoice> getTransactMotion() {
-        return transactMotion;
-    }
-
-    public void setTransactMotion(Set<Invoice> transactMotion) {
-        this.transactMotion = transactMotion;
-    }
-
     public BigDecimal getCash() {
         return cash;
     }
 
     public void setCash(BigDecimal cash) {
         this.cash = cash;
+    }
+
+    public BigDecimal getInvoiceCash() {
+        return invoiceCash;
+    }
+
+    public void setInvoiceCash(BigDecimal invoiceCash) {
+        this.invoiceCash = invoiceCash;
     }
 
     public Date getTime() {
@@ -78,5 +83,29 @@ public class Transaction {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public Invoice getInvoiceSender() {
+        return invoiceSender;
+    }
+
+    public void setInvoiceSender(Invoice invoiceSender) {
+        this.invoiceSender = invoiceSender;
+    }
+
+    public Invoice getInvoiceRecipient() {
+        return invoiceRecipient;
+    }
+
+    public void setInvoiceRecipient(Invoice invoiceRecipient) {
+        this.invoiceRecipient = invoiceRecipient;
     }
 }

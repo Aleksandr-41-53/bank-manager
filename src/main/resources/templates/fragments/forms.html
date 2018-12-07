@@ -133,7 +133,7 @@
         <label for="sender">Sender invoice</label>
         <select class="custom-select" name="sender" id="sender">
             <option th:each="s : ${senderInvoice}" th:object="${s}"
-                    th:value="*{number}"
+                    th:value="*{id}"
                     th:text="*{number} + ' (' + *{cash} + ')'">
             </option>
         </select>

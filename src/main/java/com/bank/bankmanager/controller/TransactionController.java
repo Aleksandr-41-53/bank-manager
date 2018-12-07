@@ -1,5 +1,6 @@
 package com.bank.bankmanager.controller;
 
+import com.bank.bankmanager.domain.Invoice;
 import com.bank.bankmanager.domain.Transaction;
 import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.service.InvoiceService;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/transaction")
@@ -36,12 +39,15 @@ public class TransactionController {
         return "transaction";
     }
 
+    // TODO:
     @PostMapping
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam("client") User client,
-            @Valid Transaction transaction
-    ) {
-        return "redirect:/transaction/" + client.getId();
+            @RequestParam("cash") BigDecimal cash,
+            @RequestParam("sender") Invoice sender,
+            @RequestParam("recipient") Invoice recipient
+            ) {
+        transactionService.add(cash, sender, recipient);
+        return "redirect:/transaction/" + user.getId() + "/user";
     }
 }

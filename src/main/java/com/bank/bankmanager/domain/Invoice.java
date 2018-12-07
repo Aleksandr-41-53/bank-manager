@@ -3,6 +3,7 @@ package com.bank.bankmanager.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Table(name = "invoice")
@@ -21,6 +22,11 @@ public class Invoice {
     @Column(name = "cash", columnDefinition = "DECIMAL(14,2) DEFAULT '0.00'")
     private BigDecimal cash;
 
+    @OneToMany(mappedBy = "invoiceSender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Transaction> sender;
+
+    @OneToMany(mappedBy = "invoiceRecipient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Transaction> recipient;
 
     public Invoice() {
     }
@@ -61,5 +67,21 @@ public class Invoice {
 
     public void setCash(BigDecimal cash) {
         this.cash = cash;
+    }
+
+    public Set<Transaction> getSender() {
+        return sender;
+    }
+
+    public void setSender(Set<Transaction> sender) {
+        this.sender = sender;
+    }
+
+    public Set<Transaction> getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(Set<Transaction> recipient) {
+        this.recipient = recipient;
     }
 }

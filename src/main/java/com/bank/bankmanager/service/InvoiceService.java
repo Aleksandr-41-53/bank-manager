@@ -19,6 +19,10 @@ public class InvoiceService {
         this.invoiceRepo = invoiceRepo;
     }
 
+    public void save(Invoice invoice) {
+        invoiceRepo.save(invoice);
+    }
+
     public List<Invoice> getAll() {
         return invoiceRepo.findAll();
     }
