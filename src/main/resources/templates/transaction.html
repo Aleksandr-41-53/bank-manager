@@ -16,19 +16,23 @@
             <thead>
             <tr>
                 <td scope="col">id</td>
-                <td scope="col">type</td>
                 <td scope="col">cash</td>
-                <td scope="col">invoice summary cash</td>
+                <td scope="col">sender summary cash</td>
+                <td scope="col">recipient summary cash</td>
+                <td scope="col">from</td>
+                <td scope="col">to</td>
                 <td scope="col">time</td>
-                <td scope="col">date</td>
             </tr>
             </thead>
             <tbody>
             <tr th:each="t : ${transactions}" th:object="${t}">
                 <th scope="row" th:text="*{id}"></th>
                 <td th:text="*{cash}"></td>
-                <td th:text="*{time}"></td>
-                <td th:text="*{date}"></td>
+                <td th:text="*{senderCash}"></td>
+                <td th:text="*{recipientCash}"></td>
+                <td th:text="*{invoiceSender.id}"></td>
+                <td th:text="*{invoiceRecipient.id}"></td>
+                <td th:text="*{tstz}"></td>
             </tr>
             </tbody>
         </table>

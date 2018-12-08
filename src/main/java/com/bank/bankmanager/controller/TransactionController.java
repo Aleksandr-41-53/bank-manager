@@ -47,7 +47,10 @@ public class TransactionController {
             @RequestParam("sender") Invoice sender,
             @RequestParam("recipient") Invoice recipient
             ) {
-        transactionService.add(cash, sender, recipient);
-        return "redirect:/transaction/" + user.getId() + "/user";
+        if (transactionService.add(cash, sender, recipient)) {
+            return "redirect:/transaction/" + user.getId() + "/user";
+        } else {
+            return "redirect:/transaction/" + user.getId() + "/user?errorCash";
+        }
     }
 }

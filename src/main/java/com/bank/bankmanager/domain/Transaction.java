@@ -1,10 +1,12 @@
 package com.bank.bankmanager.domain;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "transaction")
@@ -16,17 +18,15 @@ public class Transaction {
     @Column(name = "cash", columnDefinition = "DECIMAL(14,2)")
     private BigDecimal cash;
 
-    @Column(name = "invoiceCash", columnDefinition = "DECIMAL(14,2)")
-    private BigDecimal invoiceCash;
+    @Column(name = "senderCash", columnDefinition = "DECIMAL(14,2)")
+    private BigDecimal senderCash;
 
-    @Temporal(TemporalType.TIME)
-    private Date time;
+    @Column(name = "recipientCash", columnDefinition = "DECIMAL(14,2)")
+    private BigDecimal recipientCash;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
-    @Enumerated(EnumType.STRING)
-    private TransactionType type;
+    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(name = "tstz", columnDefinition= "TIMESTAMP WITH TIME ZONE DEFAULT (NOW() AT TIME ZONE 'UTC')")
+    private Date tstz;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "invoice_sender")
@@ -39,10 +39,10 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(BigDecimal cash, BigDecimal invoiceCash, TransactionType type) {
+    public Transaction(BigDecimal cash, BigDecimal senderCash, BigDecimal recipientCash) {
         this.cash = cash;
-        this.invoiceCash = invoiceCash;
-        this.type = type;
+        this.senderCash = senderCash;
+        this.recipientCash = recipientCash;
     }
 
     public Long getId() {
@@ -61,36 +61,28 @@ public class Transaction {
         this.cash = cash;
     }
 
-    public BigDecimal getInvoiceCash() {
-        return invoiceCash;
+    public BigDecimal getSenderCash() {
+        return senderCash;
     }
 
-    public void setInvoiceCash(BigDecimal invoiceCash) {
-        this.invoiceCash = invoiceCash;
+    public void setSenderCash(BigDecimal senderCash) {
+        this.senderCash = senderCash;
     }
 
-    public Date getTime() {
-        return time;
+    public BigDecimal getRecipientCash() {
+        return recipientCash;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setRecipientCash(BigDecimal recipientCash) {
+        this.recipientCash = recipientCash;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getTstz() {
+        return tstz;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public void setType(TransactionType type) {
-        this.type = type;
+    public void setTstz(Date tstz) {
+        this.tstz = tstz;
     }
 
     public Invoice getInvoiceSender() {

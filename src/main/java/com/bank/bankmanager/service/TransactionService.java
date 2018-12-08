@@ -7,6 +7,9 @@ import com.bank.bankmanager.repos.TransactionRepo;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.sql.Time;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -23,29 +26,27 @@ public class TransactionService {
         return transactionRepo.findAll();
     }
 
-    public void add(BigDecimal cash, Invoice sender, Invoice recipient) {
-        Transaction credits = new Transaction();
-        Transaction debits = new Transaction();
+    public boolean add(BigDecimal cash, Invoice sender, Invoice recipient) {
+        Transaction transaction = new Transaction();
 
-        credits.setType(TransactionType.CREDITS);
-        debits.setType(TransactionType.DEBITS);
-        credits.setCash(cash);
-        debits.setCash(cash);
-        credits.setInvoiceCash(sender.getCash().subtract(cash));
-        debits.setInvoiceCash(sender.getCash().add(cash));
+        MathContext mc = new MathContext(2);
+        BigDecimal tmp = sender.getCash().subtract(cash, mc);
+        if (tmp.compareTo(BigDecimal.ZERO) < 0) return false;
 
-        credits.setInvoiceSender(sender);
-        credits.setInvoiceRecipient(recipient);
-        debits.setInvoiceSender(recipient);
-        debits.setInvoiceRecipient(sender);
+        transaction.setCash(cash);
+        transaction.setSenderCash(sender.getCash());
+        transaction.setRecipientCash(recipient.getCash());
+        transaction.setInvoiceSender(sender);
+        transaction.setInvoiceRecipient(recipient);
+        transaction.setTstz(Calendar.getInstance().getTime());
 
-        sender.setCash(credits.getCash());
-        recipient.setCash(debits.getCash());
+        sender.setCash(tmp);
+        recipient.setCash(recipient.getCash().add(cash));
 
+        transactionRepo.save(transaction);
         invoiceService.save(sender);
-        transactionRepo.save(credits);
-
         invoiceService.save(recipient);
-        transactionRepo.save(debits);
+
+        return true;
     }
 }
