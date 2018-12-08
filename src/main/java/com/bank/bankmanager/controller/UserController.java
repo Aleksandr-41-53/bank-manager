@@ -18,7 +18,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("all")
     public String userList(
             @AuthenticationPrincipal User user,
             Model model

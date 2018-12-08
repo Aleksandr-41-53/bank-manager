@@ -19,7 +19,7 @@ public class InvoiceService {
         this.invoiceRepo = invoiceRepo;
     }
 
-    public void save(Invoice invoice) {
+    void save(Invoice invoice) {
         invoiceRepo.save(invoice);
     }
 
@@ -27,7 +27,7 @@ public class InvoiceService {
         return invoiceRepo.findAll();
     }
 
-    public List<Invoice> getInvoicesByUser(User user) {
+    public List<Invoice> getAllByUser(User user) {
         return invoiceRepo.findAllByClient(user);
     }
 

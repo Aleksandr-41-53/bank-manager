@@ -2,13 +2,12 @@ package com.bank.bankmanager.service;
 
 import com.bank.bankmanager.domain.Invoice;
 import com.bank.bankmanager.domain.Transaction;
-import com.bank.bankmanager.domain.TransactionType;
+import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.repos.TransactionRepo;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
 
@@ -24,6 +23,28 @@ public class TransactionService {
 
     public List<Transaction> getAll() {
         return transactionRepo.findAll();
+    }
+
+    public List<Transaction> getAllBySenderAndRecipient(Invoice invoice) {
+        return transactionRepo.findAllByInvoiceSenderOrInvoiceRecipient(invoice, invoice);
+    }
+
+    public List<Transaction> getAllDebitsByInvoice(Invoice invoice) {
+        return transactionRepo.findAllByInvoiceRecipient(invoice);
+    }
+
+    public List<Transaction> getAllCreditsByInvoice(Invoice invoice) {
+        return transactionRepo.findAllByInvoiceSender(invoice);
+    }
+
+    public List<Transaction> getAllDebitsByUser(User user) {
+        List<Invoice> invoices = invoiceService.getAllByUser(user);
+        return transactionRepo.findAllByInvoiceRecipientIn(invoices);
+    }
+
+    public List<Transaction> getAllCreditsByUser(User user) {
+        List<Invoice> invoices = invoiceService.getAllByUser(user);
+        return transactionRepo.findAllByInvoiceSenderIn(invoices);
     }
 
     public boolean add(BigDecimal cash, Invoice sender, Invoice recipient) {

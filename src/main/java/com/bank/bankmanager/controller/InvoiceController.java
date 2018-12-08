@@ -26,7 +26,7 @@ public class InvoiceController {
         return getUserInvoiceModel(user, user, model);
     }
 
-    @GetMapping("{client}")
+    @GetMapping("{client}/user")
     public String userInvoices(
             @AuthenticationPrincipal User user,
             @PathVariable User client,
@@ -40,7 +40,16 @@ public class InvoiceController {
         model.addAttribute("clientId", client.getId());
         model.addAttribute("rn3", invoiceService.getGenerateNumberFor3Order());
         model.addAttribute("rn5", invoiceService.getGenerateNumberFor5Order());
-        model.addAttribute("invoices", invoiceService.getInvoicesByUser(client));
+        model.addAttribute("invoices", invoiceService.getAllByUser(client));
+        return "userInvoice";
+    }
+
+    @GetMapping("all")
+    public String all(
+            @AuthenticationPrincipal User user,
+            Model model
+    ) {
+        model.addAttribute("invoices", invoiceService.getAll());
         return "userInvoice";
     }
 
@@ -49,7 +58,10 @@ public class InvoiceController {
             @RequestParam("client") User user,
             @RequestParam Map<String, String> form
     ) {
-        invoiceService.addInvoice(user, form);
-        return "redirect:/invoice/" + user.getId();
+        if (invoiceService.addInvoice(user, form)) {
+            return "redirect:/invoice";
+        } else {
+            return "redirect:/invoice?errorAdd";
+        }
     }
 }

@@ -30,7 +30,7 @@
             <tbody>
             <tr th:each="u : ${users}" th:object="${u}">
                 <th scope="row" th:text="*{id}"></th>
-                <td><a th:href="@{'/invoice/' + *{id}}" th:text="*{username}"></a></td>
+                <td><a th:href="@{'/invoice/' + *{id} + '/user'}" th:text="*{username}"></a></td>
                 <td th:text="*{lastName}"></td>
                 <td th:text="*{firstName}"></td>
                 <td th:text="*{secondName}"></td>

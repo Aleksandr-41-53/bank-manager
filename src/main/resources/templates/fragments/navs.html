@@ -18,15 +18,17 @@
                 <a class="nav-link" th:href="@{/invoice}">Invoice</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link" th:href="@{/transaction/{id}/user(id=${user.id})}">Transaction</a>
+                <a class="nav-link" th:href="@{/transaction}">Transaction</a>
             </li>
-            <!--<li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">-->
-            <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+            <li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
+            <!--<li sec:authorize="isAuthenticated()" class="nav-item dropdown">-->
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Admin
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" th:href="@{/user}">Users</a>
+                    <a class="dropdown-item" th:href="@{/user/all}">Users</a>
+                    <a class="dropdown-item" th:href="@{/invoice/all}">Invoice</a>
+                    <a class="dropdown-item" th:href="@{/transaction/all}">Transaction</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>

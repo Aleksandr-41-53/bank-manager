@@ -11,6 +11,10 @@
 
 <div class="container mt-3">
 
+    <div th:if="${errorAdd}" class="alert alert-danger" role="alert">
+        Invoice exist!
+    </div>
+
     <table th:if="${!invoices.isEmpty()}" class="table table-bordered table-hover">
         <caption>Invoice list</caption>
         <thead>
@@ -25,7 +29,9 @@
         <tr th:each="i : ${invoices}" th:object="${i}">
             <th scope="row" th:text="*{id}"></th>
             <td th:text="*{client.id}"></td>
-            <td th:text="*{number}"></td>
+            <td>
+                <a th:href="@{/transaction/{id}/invoice(id=*{id})}" th:text="*{number}"></a>
+            </td>
             <td th:text="*{cash}"></td>
         </tr>
         </tbody>
