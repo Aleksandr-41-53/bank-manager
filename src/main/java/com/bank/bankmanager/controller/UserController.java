@@ -24,6 +24,7 @@ public class UserController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
+        model.addAttribute("title", "Users list");
         model.addAttribute("user", user);
         model.addAttribute("users", userService.getAllUser());
         return "user";
@@ -34,6 +35,7 @@ public class UserController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
+        model.addAttribute("title", user.getUsername() + " profile");
         model.addAttribute("user", user);
         return "userProfile";
     }

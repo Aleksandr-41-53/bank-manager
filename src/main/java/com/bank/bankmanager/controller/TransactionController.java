@@ -40,6 +40,7 @@ public class TransactionController {
     }
 
     private String getTransactionModel(@AuthenticationPrincipal User user, @PathVariable User client, Model model) {
+        model.addAttribute("title", "Transaction " + client.getUsername());
         model.addAttribute("user", user);
         model.addAttribute("senderInvoice", invoiceService.getAllByUser(client));
         model.addAttribute("recipientInvoice", invoiceService.getAll());
@@ -54,6 +55,7 @@ public class TransactionController {
             @PathVariable Invoice invoice,
             Model model
     ) {
+        model.addAttribute("title", "Transactions by account number");
         model.addAttribute("user", user);
         model.addAttribute("senderInvoice", invoiceService.getAllByUser(user));
         model.addAttribute("recipientInvoice", invoiceService.getAll());
@@ -67,9 +69,10 @@ public class TransactionController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
+        model.addAttribute("title", "All Transactions");
         model.addAttribute("user", user);
         model.addAttribute("transactions", transactionService.getAll());
-        return "transaction";
+        return "transactions";
     }
 
     // TODO:
@@ -82,7 +85,7 @@ public class TransactionController {
         if (transactionService.add(cash, sender, recipient)) {
             return "redirect:/transaction";
         } else {
-            return "redirect:/transaction/user?errorCash";
+            return "redirect:/transaction?errorCash";
         }
     }
 }

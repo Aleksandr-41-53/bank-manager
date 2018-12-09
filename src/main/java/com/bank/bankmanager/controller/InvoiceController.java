@@ -36,6 +36,7 @@ public class InvoiceController {
     }
 
     private String getUserInvoiceModel(@AuthenticationPrincipal User user, @PathVariable User client, Model model) {
+        model.addAttribute("title", "Invoices " + client.getUsername());
         model.addAttribute("user", user);
         model.addAttribute("clientId", client.getId());
         model.addAttribute("rn3", invoiceService.getGenerateNumberFor3Order());
@@ -49,6 +50,7 @@ public class InvoiceController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
+        model.addAttribute("title", "List Invoices");
         model.addAttribute("invoices", invoiceService.getAll());
         return "userInvoice";
     }
