@@ -152,7 +152,7 @@
 
 <!-- UPDATEUSER -->
 <form th:fragment="updateUser" th:action="@{/user/profile}" th:object="${user}" method="post">
-    <h3>Update profile</h3>
+    <h3 th:text="'Update ' + *{username} + ' profile'"></h3>
 
     <div class="alert alert-success" role="alert"
          th:if="${success}"

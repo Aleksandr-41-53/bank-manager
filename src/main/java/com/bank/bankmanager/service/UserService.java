@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(password) &&
                 !StringUtils.isEmpty(password2) &&
                 password.equals(password2)
-        ) { user.setPassword(password); } else { return false; }
+        ) { user.setPassword(passwordEncoder.encode(password)); } else { return false; }
 
         userRepo.save(user);
 
