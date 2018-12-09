@@ -49,48 +49,14 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
-    public List<User> findByActive(boolean active) {
-        return userRepo.findByActive(active);
-    }
+    public boolean updateProfile(String password, String password2, User user) {
+        if (!StringUtils.isEmpty(password) &&
+                !StringUtils.isEmpty(password2) &&
+                password.equals(password2)
+        ) { user.setPassword(password); } else { return false; }
 
-    public boolean userEnable(User user) {
-        if (user.isActive()) return false;
-        user.setActive(true);
         userRepo.save(user);
+
         return true;
-    }
-
-    public boolean userDisable(User user) {
-        if (!user.isActive()) return false;
-        user.setActive(false);
-        userRepo.save(user);
-        return true;
-    }
-
-    public void updateProfile(
-            User user,
-            String password,
-            String firstName,
-            String lastName,
-            String secondName,
-            String address
-    ) {
-        String userFirstName = user.getFirstName();
-        String userLastName = user.getLastName();
-        String userSecondName = user.getSecondName();
-        String userAddress = user.getAddress();
-
-        if (firstName != null && !firstName.equals(userFirstName) || userFirstName != null && !userFirstName.equals(firstName))
-            user.setAddress(firstName);
-        if (lastName != null && !lastName.equals(userLastName) || userLastName != null && !userLastName.equals(lastName))
-            user.setAddress(lastName);
-        if (secondName != null && !secondName.equals(userSecondName) || userSecondName != null && !userSecondName.equals(secondName))
-            user.setAddress(secondName);
-        if (address != null && !address.equals(userAddress) || userAddress != null && !userAddress.equals(address))
-            user.setAddress(address);
-
-        if (!StringUtils.isEmpty(password)) user.setPassword(password);
-
-        userRepo.save(user);
     }
 }

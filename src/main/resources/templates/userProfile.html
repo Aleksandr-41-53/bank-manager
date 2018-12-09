@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="fragments/assets :: header"></head>
+
+<body>
+
+<nav th:replace="fragments/navs :: navbar"></nav>
+
+<div class="container mt-3">
+
+    <form th:replace="fragments/forms :: updateUser"></form>
+
+</div>
+
+<div th:replace="fragments/assets :: script"></div>
+
+</body>
+
+</html>

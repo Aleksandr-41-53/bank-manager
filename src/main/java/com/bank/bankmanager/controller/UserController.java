@@ -6,8 +6,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/user")
@@ -28,14 +29,30 @@ public class UserController {
         return "user";
     }
 
-    @GetMapping("{user}/profile")
-    public String userProfile(
-            @AuthenticationPrincipal User userAuth,
-            @PathVariable User user,
+    @GetMapping("profile")
+    public String profile(
+            @AuthenticationPrincipal User user,
             Model model
     ) {
-        model.addAttribute("user", userAuth);
-        model.addAttribute("client", userService.getByUsername(user.getUsername()));
+        model.addAttribute("user", user);
         return "userProfile";
+    }
+
+    @PostMapping("profile")
+    public String userProfile(
+            @AuthenticationPrincipal User user,
+            @RequestParam("password") String password,
+            @RequestParam("password2") String password2,
+            Model model
+    ) {
+        if (userService.updateProfile(password, password2, user)) {
+            model.addAttribute("success", "User updated.");
+            return "userProfile";
+        } else {
+            model.addAttribute("errorUpdateProfile",
+                    "Profile can not be updated! There are errors in filling out the form!");
+            return "userProfile";
+        }
+
     }
 }

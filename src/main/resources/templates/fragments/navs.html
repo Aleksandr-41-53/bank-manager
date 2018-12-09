@@ -34,8 +34,9 @@
                 </div>
             </li>
         </ul>
+
         <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-            <span class="text-white mr-sm-2" th:text="${user?.username}">Username</span>
+            <a class="text-secondary mr-2 mt-1" th:href="@{/user/profile}" th:text="${user?.username}"></a>
             <button class="btn btn-outline-success" type="submit">Sign Out</button>
         </form>
     </div>
