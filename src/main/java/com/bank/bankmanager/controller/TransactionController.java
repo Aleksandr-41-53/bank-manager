@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/transaction")
@@ -71,8 +72,10 @@ public class TransactionController {
     ) {
         model.addAttribute("title", "All Transactions");
         model.addAttribute("user", user);
+        model.addAttribute("fromId", transactionService.getDistinctInvoiceSenderAll());
+        model.addAttribute("toId", transactionService.getDistinctInvoiceRecipientAll());
         model.addAttribute("transactions", transactionService.getAll());
-        return "transactions";
+        return "admin/transactions";
     }
 
     // TODO:

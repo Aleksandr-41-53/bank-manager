@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TransactionService {
@@ -22,7 +24,7 @@ public class TransactionService {
     }
 
     public List<Transaction> getAll() {
-        return transactionRepo.findAll();
+        return transactionRepo.findAllByOrderByTstzDesc();
     }
 
     public List<Transaction> getAllBySenderAndRecipient(Invoice invoice) {
@@ -45,6 +47,14 @@ public class TransactionService {
     public List<Transaction> getAllCreditsByUser(User user) {
         List<Invoice> invoices = invoiceService.getAllByUser(user);
         return transactionRepo.findAllByInvoiceSenderIn(invoices);
+    }
+
+    public List<Long> getDistinctInvoiceSenderAll() {
+        return transactionRepo.findDistinctInvoiceSenderAll();
+    }
+
+    public List<Long> getDistinctInvoiceRecipientAll() {
+        return transactionRepo.findDistinctInvoiceRecipientAll();
     }
 
     public boolean add(BigDecimal cash, Invoice sender, Invoice recipient) {

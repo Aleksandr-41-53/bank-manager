@@ -21,6 +21,7 @@
                 <td scope="col">First name</td>
                 <td scope="col">Second name</td>
                 <td scope="col">Address</td>
+                <td scope="col">Invoices</td>
                 <td scope="col">Transaction</td>
                 <td scope="col">Active</td>
                 <td scope="col">Roles</td>
@@ -35,6 +36,7 @@
                 <td th:text="*{firstName}"></td>
                 <td th:text="*{secondName}"></td>
                 <td th:text="*{address}"></td>
+                <td><a th:href="@{'/invoice/' + *{id} + '/user'}">Invoice</a></td>
                 <td><a th:href="@{'/transaction/' + *{id} + '/user'}">Transaction</a></td>
                 <td th:text="*{active}"></td>
                 <td><span th:each="r : *{roles}" th:text="${r} + ' '"></span></td>
