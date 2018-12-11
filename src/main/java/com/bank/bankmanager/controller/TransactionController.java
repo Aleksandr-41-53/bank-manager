@@ -67,6 +67,7 @@ public class TransactionController {
 
     @GetMapping("all")
     public String all(
+            @RequestParam(value = "date", defaultValue = "2018-12-09*") String date,
             @AuthenticationPrincipal User user,
             Model model
     ) {
@@ -74,7 +75,7 @@ public class TransactionController {
         model.addAttribute("user", user);
         model.addAttribute("fromId", transactionService.getDistinctInvoiceSenderAll());
         model.addAttribute("toId", transactionService.getDistinctInvoiceRecipientAll());
-        model.addAttribute("transactions", transactionService.getAll());
+        model.addAttribute("transactions", transactionService.searchTransaction(date));
         return "admin/transactions";
     }
 

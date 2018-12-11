@@ -1,5 +1,7 @@
 package com.bank.bankmanager.domain;
 
+import org.hibernate.search.annotations.ContainedIn;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
@@ -22,9 +24,11 @@ public class Invoice {
     @Column(name = "cash", columnDefinition = "DECIMAL(14,2) DEFAULT '0.00'")
     private BigDecimal cash;
 
+    @ContainedIn
     @OneToMany(mappedBy = "invoiceSender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Transaction> sender;
 
+    @ContainedIn
     @OneToMany(mappedBy = "invoiceRecipient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Transaction> recipient;
 

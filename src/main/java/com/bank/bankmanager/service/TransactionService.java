@@ -4,6 +4,7 @@ import com.bank.bankmanager.domain.Invoice;
 import com.bank.bankmanager.domain.Transaction;
 import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.repos.TransactionRepo;
+import com.bank.bankmanager.repos.TransactionSearchRepo;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,10 +18,12 @@ import java.util.Map;
 public class TransactionService {
     private final TransactionRepo transactionRepo;
     private final InvoiceService invoiceService;
+    private final TransactionSearchRepo transactionSearchRepo;
 
-    public TransactionService(TransactionRepo transactionRepo, InvoiceService invoiceService) {
+    public TransactionService(TransactionRepo transactionRepo, InvoiceService invoiceService, TransactionSearchRepo transactionSearchRepo) {
         this.transactionRepo = transactionRepo;
         this.invoiceService = invoiceService;
+        this.transactionSearchRepo = transactionSearchRepo;
     }
 
     public List<Transaction> getAll() {
@@ -79,5 +82,13 @@ public class TransactionService {
         invoiceService.save(recipient);
 
         return true;
+    }
+
+    public List<Transaction> searchTransaction(String text) {
+        if ("".equals(text)) {
+            return transactionRepo.findAll();
+        } else {
+            return transactionSearchRepo.searchTransactionByWildcardDate(text);
+        }
     }
 }
