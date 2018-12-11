@@ -9,76 +9,81 @@
 
     <nav th:replace="fragments/navs :: navbar"></nav>
 
+    <div class="row mx-5 mt-3">
+        <div class="col col-6">
+            <h3>Debits</h3>
+            <table th:if="${!debits.isEmpty()}" class="table table-bordered table-hover">
+                <caption>Debits transaction list</caption>
+                <thead>
+                <tr>
+                    <td scope="col">id</td>
+                    <td scope="col">transfer amount</td>
+                    <td scope="col">sender summary cash</td>
+                    <td scope="col">recipient summary cash</td>
+                    <td scope="col">from</td>
+                    <td scope="col">to</td>
+                    <td scope="col">time</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="d : ${debits}" th:object="${d}">
+                    <th scope="row" th:text="*{id}"></th>
+                    <td th:text="*{cash}"></td>
+                    <td th:text="*{senderCash}"></td>
+                    <td th:text="*{recipientCash}"></td>
+                    <td th:text="*{invoiceSender.id}"></td>
+                    <td th:text="*{invoiceRecipient.id}"></td>
+                    <td th:text="*{tstz}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${debits.isEmpty()}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                This user don't have debits transaction
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col col-6">
+            <h3>Credits</h3>
+            <table th:if="${!credits.isEmpty()}" class="table table-bordered table-hover">
+                <caption>Credits transaction list</caption>
+                <thead>
+                <tr>
+                    <td scope="col">id</td>
+                    <td scope="col">transfer amount</td>
+                    <td scope="col">sender summary cash</td>
+                    <td scope="col">recipient summary cash</td>
+                    <td scope="col">from</td>
+                    <td scope="col">to</td>
+                    <td scope="col">time</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${credits}" th:object="${c}">
+                    <th scope="row" th:text="*{id}"></th>
+                    <td th:text="*{cash}"></td>
+                    <td th:text="*{senderCash}"></td>
+                    <td th:text="*{recipientCash}"></td>
+                    <td th:text="*{invoiceSender.id}"></td>
+                    <td th:text="*{invoiceRecipient.id}"></td>
+                    <td th:text="*{tstz}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${credits.isEmpty()}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                This user don't have credits transaction
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-3">
-
-        <h3>Debits</h3>
-        <table th:if="${!debits.isEmpty()}" class="table table-bordered table-hover">
-            <caption>Transaction list</caption>
-            <thead>
-            <tr>
-                <td scope="col">id</td>
-                <td scope="col">transfer amount</td>
-                <td scope="col">sender summary cash</td>
-                <td scope="col">recipient summary cash</td>
-                <td scope="col">from</td>
-                <td scope="col">to</td>
-                <td scope="col">time</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="d : ${debits}" th:object="${d}">
-                <th scope="row" th:text="*{id}"></th>
-                <td th:text="*{cash}"></td>
-                <td th:text="*{senderCash}"></td>
-                <td th:text="*{recipientCash}"></td>
-                <td th:text="*{invoiceSender.id}"></td>
-                <td th:text="*{invoiceRecipient.id}"></td>
-                <td th:text="*{tstz}"></td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div th:if="${debits.isEmpty()}" class="alert alert-warning alert-dismissible fade show" role="alert">
-            This user don't have debits transaction
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-
-        <h3>Credits</h3>
-        <table th:if="${!credits.isEmpty()}" class="table table-bordered table-hover">
-            <caption>Transaction list</caption>
-            <thead>
-            <tr>
-                <td scope="col">id</td>
-                <td scope="col">transfer amount</td>
-                <td scope="col">sender summary cash</td>
-                <td scope="col">recipient summary cash</td>
-                <td scope="col">from</td>
-                <td scope="col">to</td>
-                <td scope="col">time</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="c : ${credits}" th:object="${c}">
-                <th scope="row" th:text="*{id}"></th>
-                <td th:text="*{cash}"></td>
-                <td th:text="*{senderCash}"></td>
-                <td th:text="*{recipientCash}"></td>
-                <td th:text="*{invoiceSender.id}"></td>
-                <td th:text="*{invoiceRecipient.id}"></td>
-                <td th:text="*{tstz}"></td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div th:if="${credits.isEmpty()}" class="alert alert-warning alert-dismissible fade show" role="alert">
-            This user don't have credits transaction
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
 
         <hr/>
 

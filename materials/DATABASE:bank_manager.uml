@@ -10,17 +10,17 @@
   </nodes>
   <notes />
   <edges>
+    <edge source="560856f2-0305-40e0-8051-9824dd735088.TABLE:bank_manager.public.transaction" target="560856f2-0305-40e0-8051-9824dd735088.TABLE:bank_manager.public.invoice">
+      <point x="-86.75" y="-133.0" />
+      <point x="86.75" y="543.0" />
+      <point x="111.75" y="543.0" />
+      <point x="-61.75" y="85.0" />
+    </edge>
     <edge source="560856f2-0305-40e0-8051-9824dd735088.TABLE:bank_manager.public.user_role" target="560856f2-0305-40e0-8051-9824dd735088.TABLE:bank_manager.public.usr">
       <point x="0.0" y="-52.5" />
       <point x="435.5" y="323.0" />
       <point x="378.75" y="323.0" />
       <point x="74.25" y="149.0" />
-    </edge>
-    <edge source="560856f2-0305-40e0-8051-9824dd735088.TABLE:bank_manager.public.transaction" target="560856f2-0305-40e0-8051-9824dd735088.TABLE:bank_manager.public.invoice">
-      <point x="86.75" y="-133.0" />
-      <point x="260.25" y="543.0" />
-      <point x="235.25" y="543.0" />
-      <point x="61.75" y="85.0" />
     </edge>
     <edge source="560856f2-0305-40e0-8051-9824dd735088.TABLE:bank_manager.public.invoice" target="560856f2-0305-40e0-8051-9824dd735088.TABLE:bank_manager.public.usr">
       <point x="0.0" y="-85.0" />
@@ -29,7 +29,7 @@
       <point x="-74.25" y="149.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="900.0" y="417.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="277.0" y="417.0" />
   <SelectedNodes />
   <Categories>
     <Category>Key columns</Category>

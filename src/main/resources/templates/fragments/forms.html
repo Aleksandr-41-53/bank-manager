@@ -7,13 +7,13 @@
 <form th:fragment="login" th:action="@{/login}" method="post">
     <h3>Sing in</h3>
 
-    <div th:if="${param.error}" class="alert alert-warning alert-dismissible fade show" role="alert">
+    <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
         Invalid username and password or locked user.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div th:if="${param.logout}" class="alert alert-warning alert-dismissible fade show" role="alert">
+    <div th:if="${param.logout}" class="alert alert-info alert-dismissible fade show" role="alert">
         You have been sign out.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -75,21 +75,21 @@
 
 <!-- INVOICE -->
 <form th:fragment="addInvoice" th:action="@{/invoice}" class="form-inline"  method="post">
-    <h5>Add new invoice</h5>
+    <h5 class="mr-sm-2">Add new invoice</h5>
 
      <div class="form-group" hidden>
         <label for="client">Client</label>
         <input type="text" name="client" id="client" th:value="${clientId}" readonly>
     </div>
 
-    <div class="form-group mx-sm-3 mb-2">
+    <div class="form-group mr-sm-1 mb-2">
         <label class="sr-only" for="order1">1 order</label>
         <select class="custom-select" name="order1" id="order1">
             <option value="40702" selected>(юридический) 40702</option>
             <option value="42605">(частный) 42605</option>
         </select>
     </div>
-    <div class="form-group mx-sm-3 mb-2">
+    <div class="form-group mr-sm-1 mb-2">
         <label class="sr-only" for="order2">2 order</label>
         <select class="custom-select" name="order2" id="order2">
             <option value="643" selected>(RUB) 643</option>
@@ -99,15 +99,15 @@
             <option value="980">(UAH) 980</option>
         </select>
     </div>
-    <div class="form-group mx-sm-3 mb-2">
+    <div class="form-group mr-sm-1 mb-2">
         <label class="sr-only" for="order3">3 order</label>
         <input type="text" class="form-control" id="order3" name="order3" th:value="${rn3}" readonly maxlength="1" minlength="1" size="1">
     </div>
-    <div class="form-group mx-sm-3 mb-2">
+    <div class="form-group mr-sm-1 mb-2">
         <label class="sr-only" for="order4">4 order</label>
         <input type="text" class="form-control" id="order4" name="order4" value="0000" readonly maxlength="4" minlength="4" size="4">
     </div>
-    <div class="form-group mx-sm-3 mb-2">
+    <div class="form-group mr-sm-2 mb-2">
         <label for="order5" class="sr-only">5 order</label>
         <input type="text" class="form-control" id="order5" name="order5" th:value="${rn5}" maxlength="7" minlength="7" size="7">
     </div>
@@ -121,8 +121,9 @@
 
     <div class="alert alert-danger" role="alert"
          th:if="${errorCash}">
-
+        Do have money?
     </div>
+
 
     <div class="form-group">
         <label for="cash">Cash</label>

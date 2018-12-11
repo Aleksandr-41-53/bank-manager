@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/transaction")
@@ -67,7 +66,7 @@ public class TransactionController {
 
     @GetMapping("all")
     public String all(
-            @RequestParam(value = "date", defaultValue = "2018-12-09*") String date,
+            @RequestParam(value = "date", defaultValue = "") String date,
             @AuthenticationPrincipal User user,
             Model model
     ) {

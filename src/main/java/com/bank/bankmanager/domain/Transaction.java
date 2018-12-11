@@ -1,8 +1,5 @@
 package com.bank.bankmanager.domain;
 
-import com.bank.bankmanager.lucene.bridge.BigDecimalNumericFieldBridge;
-import org.hibernate.search.annotations.*;
-import org.hibernate.search.annotations.Index;
 import org.springframework.stereotype.Indexed;
 
 import javax.persistence.*;
@@ -17,37 +14,24 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Field
-    @NumericField
-    @FieldBridge(impl = BigDecimalNumericFieldBridge.class)
     @Column(name = "cash", columnDefinition = "DECIMAL(14,2)")
     private BigDecimal cash;
 
-    @Field
-    @NumericField
-    @FieldBridge(impl = BigDecimalNumericFieldBridge.class)
-    @Column(name = "senderCash", columnDefinition = "DECIMAL(14,2)")
+    @Column(name = "sender_cash", columnDefinition = "DECIMAL(14,2)")
     private BigDecimal senderCash;
 
-    @Field
-    @NumericField
-    @FieldBridge(impl = BigDecimalNumericFieldBridge.class)
-    @Column(name = "recipientCash", columnDefinition = "DECIMAL(14,2)")
+    @Column(name = "recipient_cash", columnDefinition = "DECIMAL(14,2)")
     private BigDecimal recipientCash;
 
-    @Field(index = Index.YES, analyze=Analyze.NO, store = Store.YES)
-    @DateBridge(resolution = Resolution.DAY)
     @Temporal(TemporalType.TIMESTAMP)
     private Date tstz;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "invoice_sender")
-    @IndexedEmbedded
     private Invoice invoiceSender;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "invoice_recipient")
-    @IndexedEmbedded
     private Invoice invoiceRecipient;
 
     public Transaction() {

@@ -4,34 +4,25 @@ import com.bank.bankmanager.domain.Invoice;
 import com.bank.bankmanager.domain.Transaction;
 import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.repos.TransactionRepo;
-import com.bank.bankmanager.repos.TransactionSearchRepo;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TransactionService {
     private final TransactionRepo transactionRepo;
     private final InvoiceService invoiceService;
-    private final TransactionSearchRepo transactionSearchRepo;
 
-    public TransactionService(TransactionRepo transactionRepo, InvoiceService invoiceService, TransactionSearchRepo transactionSearchRepo) {
+    public TransactionService(TransactionRepo transactionRepo, InvoiceService invoiceService) {
         this.transactionRepo = transactionRepo;
         this.invoiceService = invoiceService;
-        this.transactionSearchRepo = transactionSearchRepo;
     }
 
     public List<Transaction> getAll() {
         return transactionRepo.findAllByOrderByTstzDesc();
-    }
-
-    public List<Transaction> getAllBySenderAndRecipient(Invoice invoice) {
-        return transactionRepo.findAllByInvoiceSenderOrInvoiceRecipient(invoice, invoice);
     }
 
     public List<Transaction> getAllDebitsByInvoice(Invoice invoice) {
@@ -84,11 +75,11 @@ public class TransactionService {
         return true;
     }
 
+    // TODO: сделать поиск
     public List<Transaction> searchTransaction(String text) {
         if ("".equals(text)) {
             return transactionRepo.findAll();
-        } else {
-            return transactionSearchRepo.searchTransactionByWildcardDate(text);
         }
+        return null;
     }
 }

@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -29,13 +31,20 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUsername(username);
     }
 
-    public boolean addUser(User user) {
+    public boolean create(User user) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
         if (userFromDb != null) return false;
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.CLIENT));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // TODO: убрать костыль админа
+        List<User> chckUser = userRepo.findAll();
+        if (chckUser.isEmpty()) {
+            Set<Role> set = EnumSet.allOf(Role.class);
+            user.setRoles(set);
+        }
 
         userRepo.save(user);
         return true;

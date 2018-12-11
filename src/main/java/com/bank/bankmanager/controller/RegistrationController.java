@@ -48,7 +48,7 @@ public class RegistrationController {
             model.mergeAttributes(errors);
             return "registration";
         }
-        if (!userService.addUser(user)) {
+        if (!userService.create(user)) {
             model.addAttribute("usernameError", "User exists");
             return "registration";
         }
