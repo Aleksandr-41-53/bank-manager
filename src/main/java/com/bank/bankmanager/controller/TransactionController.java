@@ -72,15 +72,15 @@ public class TransactionController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("all")
     public String all(
-            @RequestParam(value = "invoiceSender", defaultValue = "") Long invoiceSender,
-            @RequestParam(value = "invoiceRecipient", defaultValue = "") Long invoiceRecipient,
+            @RequestParam(value = "from", defaultValue = "") Invoice invoiceSender,
+            @RequestParam(value = "to", defaultValue = "") Invoice invoiceRecipient,
             @RequestParam(value = "dateOn", defaultValue = "") String dateOn,
             @RequestParam(value = "dateOff", defaultValue = "") String dateOff,
             @AuthenticationPrincipal User user,
             Model model
     ) {
-        model.addAttribute("invoiceSender", invoiceSender);
-        model.addAttribute("invoiceRecipient", invoiceRecipient);
+        model.addAttribute("searchFrom", invoiceSender);
+        model.addAttribute("searchTo", invoiceRecipient);
         model.addAttribute("dateOn", dateOn);
         model.addAttribute("dateOff", dateOff);
 

@@ -13,24 +13,24 @@
 
     <div class="container">
 
-        <form th:action="@{/transaction/all}" name="search" method="get">
+        <form id="search" th:action="@{/transaction/all}" name="search" method="get">
 
             <div class="row">
                 <div class="col col-6">
                     <div class="form-group mr-sm-1 mb-2">
-                        <label for="invoiceSender">From</label>
-                        <select class="custom-select" name="invoiceSender" id="invoiceSender">
+                        <label for="from">From</label>
+                        <select class="custom-select" name="from" id="from">
                             <option value="" selected>from</option>
-                            <option th:each="id : ${fromId}" th:value="${id}" th:text="${id}"></option>
+                            <option th:each="id : ${fromId}" th:value="${id}" th:text="${id}" th:selected="${searchFrom?.id == id} ? true"></option>
                         </select>
                     </div>
                 </div>
                 <div class="col col-6">
                     <div class="form-group mr-sm-1 mb-2">
-                        <label for="invoiceRecipient">To</label>
-                        <select class="custom-select" name="invoiceRecipient" id="invoiceRecipient">
+                        <label for="to">To</label>
+                        <select class="custom-select" name="to" id="to">
                             <option value="" selected>to</option>
-                            <option th:each="id : ${toId}" th:value="${id}" th:text="${id}"></option>
+                            <option th:each="id : ${toId}" th:value="${id}" th:text="${id}" th:selected="${searchTo?.id == id} ? true"></option>
                         </select>
                     </div>
                 </div>
@@ -52,6 +52,7 @@
             </div>
 
             <button class="btn btn-primary mr-sm-1 mb-sm-2" type="submit">Search</button>
+            <a class="btn btn-outline-secondary mr-sm-1 mb-sm-2" th:href="@{/transaction/all}" id="clearBtn">Clear</a>
 
         </form>
 
@@ -88,8 +89,12 @@
                 <td th:text="*{cash}"></td>
                 <td th:text="*{senderCash}"></td>
                 <td th:text="*{recipientCash}"></td>
-                <td th:text="*{invoiceSender.id}"></td>
-                <td th:text="*{invoiceRecipient.id}"></td>
+                <td>
+                    <a th:href="@{/transaction/all?from={id}(id=*{invoiceSender.id})}" th:text="*{invoiceSender.id}"></a>
+                </td>
+                <td>
+                    <a th:href="@{/transaction/all?to={id}(id=*{invoiceRecipient.id})}" th:text="*{invoiceRecipient.id}"></a>
+                </td>
                 <td th:text="*{tstz}"></td>
             </tr>
             </tbody>

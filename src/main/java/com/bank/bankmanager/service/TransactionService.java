@@ -7,7 +7,6 @@ import com.bank.bankmanager.repos.TransactionRepo;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -75,18 +74,77 @@ public class TransactionService {
         return true;
     }
 
-    // TODO: сделать поиск
-    public List<Transaction> searchTransaction(Long senderId, Long recipientId, String textDateOn, String textDateOff) {
-        if ("".equals(textDateOn) && "".equals(textDateOff)) {
-            return transactionRepo.findAll();
-        } else {
+    // TODO: сделать поиск на Lucene
+    public List<Transaction> searchTransaction(Invoice invoiceSender, Invoice invoiceRecipient, String textDateOn, String textDateOff) {
+
+        // Parse String to LocalDateTime
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        LocalDateTime dateOn = null;
+        LocalDateTime dateOff = null;
+        if (!"".equals(textDateOn) && !"".equals(textDateOff)) {
             textDateOn += " 00:00:00.000";
             textDateOff += " 00:00:00.000";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-            LocalDateTime dateOn = LocalDateTime.parse(textDateOn, formatter);
-            LocalDateTime dateOff = LocalDateTime.parse(textDateOff, formatter);
-
-            return transactionRepo.findTransactionByTstzEquals(dateOn, dateOff);
+            dateOn = LocalDateTime.parse(textDateOn, formatter);
+            dateOff = LocalDateTime.parse(textDateOff, formatter);
+        } else if (!"".equals(textDateOn) && "".equals(textDateOff)) {
+            textDateOff = textDateOn;
+            textDateOn += " 00:00:00.000";
+            textDateOff += " 23:59:59.999";
+            dateOn = LocalDateTime.parse(textDateOn, formatter);
+            dateOff = LocalDateTime.parse(textDateOff, formatter);
         }
+
+
+        // check
+        boolean isNotNullDateOn           = dateOn != null;
+        boolean isNotNullDateOff          = dateOff != null;
+        boolean isNotNullInvoiceSender    = invoiceSender != null;
+        boolean isNotNullInvoiceRecipient = invoiceRecipient != null;
+
+        // all
+        if (isNotNullDateOn && isNotNullDateOff && isNotNullInvoiceSender && isNotNullInvoiceRecipient)
+            return transactionRepo
+                    .findTransactionByInvoiceSenderAndInvoiceRecipientByTstzBetweenOrderByTstzDesc(
+                            invoiceSender, invoiceRecipient, dateOn, dateOff
+                    );
+
+        // date & invoice sender
+        if (isNotNullDateOn && isNotNullDateOff && isNotNullInvoiceSender && !isNotNullInvoiceRecipient)
+            return transactionRepo.findTransactionByInvoiceSenderAndTstzOrderByTstzDesc(
+                    invoiceSender, dateOn,dateOff
+            );
+
+        // date & invoice recipient
+        if (isNotNullDateOn && isNotNullDateOff && !isNotNullInvoiceSender && isNotNullInvoiceRecipient)
+            return transactionRepo.findTransactionByInvoiceRecipientAndTstzOrderByTstzDesc(
+                    invoiceRecipient, dateOn,dateOff
+            );
+
+        // only date
+        if (isNotNullDateOn && isNotNullDateOff && !isNotNullInvoiceSender && !isNotNullInvoiceRecipient)
+            return transactionRepo.findTransactionByTstzBetweenOrderByTstzDesc(
+                    dateOn, dateOff
+            );
+
+        // only invoices
+        if (!isNotNullDateOn && !isNotNullDateOff && isNotNullInvoiceSender && isNotNullInvoiceRecipient)
+            return transactionRepo.findTransactionsByInvoiceSenderAndInvoiceRecipientOrderByTstzDesc(
+                    invoiceSender, invoiceRecipient
+            );
+
+        // invoice sender
+        if (!isNotNullDateOn && !isNotNullDateOff && isNotNullInvoiceSender && !isNotNullInvoiceRecipient)
+            return transactionRepo.findTransactionsByInvoiceSenderOrderByTstzDesc(
+                    invoiceSender
+            );
+
+        // invoice recipient
+        if (!isNotNullDateOn && !isNotNullDateOff && isNotNullInvoiceSender && !isNotNullInvoiceRecipient)
+            return transactionRepo.findTransactionsByInvoiceRecipientOrderByTstzDesc(
+                    invoiceRecipient
+            );
+
+        return transactionRepo.findAll();
     }
+
 }
