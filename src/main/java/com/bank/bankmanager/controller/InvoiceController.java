@@ -2,6 +2,7 @@ package com.bank.bankmanager.controller;
 
 import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.service.InvoiceService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,11 +46,13 @@ public class InvoiceController {
         return "userInvoice";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("all")
     public String all(
             @AuthenticationPrincipal User user,
             Model model
     ) {
+        model.addAttribute("user", user);
         model.addAttribute("title", "List Invoices");
         model.addAttribute("invoices", invoiceService.getAll());
         return "userInvoice";

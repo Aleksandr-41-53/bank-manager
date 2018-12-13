@@ -4,7 +4,9 @@ import com.bank.bankmanager.domain.Invoice;
 import com.bank.bankmanager.domain.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TransactionRepo extends JpaRepository<Transaction, Long> {
@@ -18,4 +20,10 @@ public interface TransactionRepo extends JpaRepository<Transaction, Long> {
     List<Long> findDistinctInvoiceSenderAll();
     @Query(value = "SELECT DISTINCT invoice_recipient FROM transaction ORDER BY transaction.invoice_recipient ASC;", nativeQuery = true)
     List<Long> findDistinctInvoiceRecipientAll();
+
+//    @Query("SELECT t FROM Transaction t WHERE DATE_TRUNC('minutes', t.tstz) = DATE_TRUNC('minutes', :date) ORDER BY t.tstz ASC")
+//    List<Transaction> findTransactionByTstzEquals(@Param("date") LocalDateTime date);
+
+    @Query("SELECT t FROM Transaction t WHERE t.tstz BETWEEN :dateOn AND :dateOff ORDER BY tstz DESC")
+    List<Transaction> findTransactionByTstzEquals(@Param("dateOn") LocalDateTime dateOn, @Param("dateOff") LocalDateTime dateOff);
 }

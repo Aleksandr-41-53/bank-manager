@@ -7,8 +7,9 @@ import com.bank.bankmanager.repos.TransactionRepo;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -54,8 +55,7 @@ public class TransactionService {
     public boolean add(BigDecimal cash, Invoice sender, Invoice recipient) {
         Transaction transaction = new Transaction();
 
-        MathContext mc = new MathContext(2);
-        BigDecimal tmp = sender.getCash().subtract(cash, mc);
+        BigDecimal tmp = sender.getCash().subtract(cash);
         if (tmp.compareTo(BigDecimal.ZERO) < 0) return false;
 
         transaction.setCash(cash);
@@ -63,7 +63,7 @@ public class TransactionService {
         transaction.setRecipientCash(recipient.getCash());
         transaction.setInvoiceSender(sender);
         transaction.setInvoiceRecipient(recipient);
-        transaction.setTstz(Calendar.getInstance().getTime());
+        transaction.setTstz(LocalDateTime.now());
 
         sender.setCash(tmp);
         recipient.setCash(recipient.getCash().add(cash));
@@ -76,10 +76,17 @@ public class TransactionService {
     }
 
     // TODO: сделать поиск
-    public List<Transaction> searchTransaction(String text) {
-        if ("".equals(text)) {
+    public List<Transaction> searchTransaction(Long senderId, Long recipientId, String textDateOn, String textDateOff) {
+        if ("".equals(textDateOn) && "".equals(textDateOff)) {
             return transactionRepo.findAll();
+        } else {
+            textDateOn += " 00:00:00.000";
+            textDateOff += " 00:00:00.000";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            LocalDateTime dateOn = LocalDateTime.parse(textDateOn, formatter);
+            LocalDateTime dateOff = LocalDateTime.parse(textDateOff, formatter);
+
+            return transactionRepo.findTransactionByTstzEquals(dateOn, dateOff);
         }
-        return null;
     }
 }

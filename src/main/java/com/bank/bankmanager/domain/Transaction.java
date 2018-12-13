@@ -4,7 +4,7 @@ import org.springframework.stereotype.Indexed;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Indexed
@@ -23,8 +23,8 @@ public class Transaction {
     @Column(name = "recipient_cash", columnDefinition = "DECIMAL(14,2)")
     private BigDecimal recipientCash;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date tstz;
+    @Column(name = "tstz", columnDefinition = "timestamp without time zone")
+    private LocalDateTime tstz;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "invoice_sender")
@@ -75,11 +75,11 @@ public class Transaction {
         this.recipientCash = recipientCash;
     }
 
-    public Date getTstz() {
+    public LocalDateTime getTstz() {
         return tstz;
     }
 
-    public void setTstz(Date tstz) {
+    public void setTstz(LocalDateTime tstz) {
         this.tstz = tstz;
     }
 

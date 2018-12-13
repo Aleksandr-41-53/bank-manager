@@ -4,6 +4,7 @@ import com.bank.bankmanager.domain.Invoice;
 import com.bank.bankmanager.domain.Transaction;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class TransactionDto {
@@ -13,7 +14,10 @@ public class TransactionDto {
     private BigDecimal recipientCash;
     private Invoice invoiceSender;
     private Invoice invoiceRecipient;
-    private Date tstz;
+    private LocalDateTime tstz;
+
+    public TransactionDto() {
+    }
 
     public TransactionDto(Transaction transaction) {
         this.id = transaction.getId();
@@ -73,11 +77,11 @@ public class TransactionDto {
         this.invoiceRecipient = invoiceRecipient;
     }
 
-    public Date getTstz() {
+    public LocalDateTime getTstz() {
         return tstz;
     }
 
-    public void setTstz(Date tstz) {
+    public void setTstz(LocalDateTime tstz) {
         this.tstz = tstz;
     }
 

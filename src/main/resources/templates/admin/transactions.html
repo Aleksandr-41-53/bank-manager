@@ -9,51 +9,69 @@
 
 <nav th:replace="fragments/navs :: navbar"></nav>
 
-<div class="container mt-3">
+<div class="row mx-5 mt-5 bg-light p-5">
 
-    <h3>Transactions</h3>
+    <div class="container">
 
-    <form th:action="@{/transaction/all}" name="search" class="form-inline" method="get">
+        <form th:action="@{/transaction/all}" name="search" method="get">
 
-        <button class="btn btn-primary mr-sm-1 mb-sm-2" type="submit">Search</button>
+            <div class="row">
+                <div class="col col-6">
+                    <div class="form-group mr-sm-1 mb-2">
+                        <label for="invoiceSender">From</label>
+                        <select class="custom-select" name="invoiceSender" id="invoiceSender">
+                            <option value="" selected>from</option>
+                            <option th:each="id : ${fromId}" th:value="${id}" th:text="${id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-6">
+                    <div class="form-group mr-sm-1 mb-2">
+                        <label for="invoiceRecipient">To</label>
+                        <select class="custom-select" name="invoiceRecipient" id="invoiceRecipient">
+                            <option value="" selected>to</option>
+                            <option th:each="id : ${toId}" th:value="${id}" th:text="${id}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-        <div class="form-group mr-sm-1 mb-2">
-            <label for="cash" class="sr-only">amount</label>
-            <input type="number" class="form-control" id="cash" name="cash">
+            <div class="row">
+                <div class="col col-6">
+                    <div class="form-group mb-2">
+                        <label for="dateOn">Date On</label>
+                        <input type="date" class="form-control" id="dateOn" name="dateOn" th:value="${dateOn}">
+                    </div>
+                </div>
+                <div class="col col-6">
+                    <div class="form-group mb-2">
+                        <label for="dateOff">Date Off</label>
+                        <input type="date" class="form-control" id="dateOff" name="dateOff" th:value="${dateOff}">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary mr-sm-1 mb-sm-2" type="submit">Search</button>
+
+        </form>
+
+        <hr/>
+
+        <div th:if="${transactions.isEmpty()}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            No transactions.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div class="form-group mr-sm-1 mb-2">
-            <label for="senderCash" class="sr-only">sender cash</label>
-            <input type="number" class="form-control" id="senderCash" name="senderCash">
-        </div>
-        <div class="form-group mr-sm-1 mb-2">
-            <label for="recipientCash" class="sr-only">recipient cash</label>
-            <input type="number" class="form-control" id="recipientCash" name="recipientCash">
-        </div>
-        <div class="form-group mr-sm-1 mb-2">
-            <label class="sr-only" for="invoiceSender">from</label>
-            <select class="custom-select" name="invoiceSender" id="invoiceSender">
-                <option value="" selected>from</option>
-                <option th:each="id : ${fromId}" th:value="${id}" th:text="${id}"></option>
-            </select>
-        </div>
-        <div class="form-group mr-sm-1 mb-2">
-            <label class="sr-only" for="invoiceRecipient">to</label>
-            <select class="custom-select" name="invoiceRecipient" id="invoiceRecipient">
-                <option value="" selected>to</option>
-                <option th:each="id : ${toId}" th:value="${id}" th:text="${id}"></option>
-            </select>
-        </div>
-        <div class="form-group mb-2">
-            <label class="sr-only" for="date">date</label>
-            <input type="date" class="form-control" id="date" name="date">
-        </div>
 
-    </form>
+    </div>
 
+    <div class="container-fluid">
+        <h3>Transactions</h3>
 
-    <table th:if="${!transactions.isEmpty()}" class="table table-bordered table-hover">
-        <caption>Transaction list</caption>
-        <thead>
+        <table th:if="${!transactions.isEmpty()}" class="table table-bordered table-hover">
+            <caption>Transaction list</caption>
+            <thead>
             <tr>
                 <td scope="col">id</td>
                 <td scope="col">amount</td>
@@ -63,8 +81,8 @@
                 <td scope="col">to number</td>
                 <td scope="col">time</td>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr th:each="t : ${transactions}" th:object="${t}">
                 <th scope="row" th:text="*{id}"></th>
                 <td th:text="*{cash}"></td>
@@ -74,14 +92,8 @@
                 <td th:text="*{invoiceRecipient.id}"></td>
                 <td th:text="*{tstz}"></td>
             </tr>
-        </tbody>
-    </table>
-
-    <div th:if="${transactions.isEmpty()}" class="alert alert-danger alert-dismissible fade show" role="alert">
-        No transactions.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+            </tbody>
+        </table>
     </div>
 
 </div>
