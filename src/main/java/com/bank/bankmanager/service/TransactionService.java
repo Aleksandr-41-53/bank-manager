@@ -139,7 +139,7 @@ public class TransactionService {
             );
 
         // invoice recipient
-        if (!isNotNullDateOn && !isNotNullDateOff && isNotNullInvoiceSender && !isNotNullInvoiceRecipient)
+        if (!isNotNullDateOn && !isNotNullDateOff && !isNotNullInvoiceSender && isNotNullInvoiceRecipient)
             return transactionRepo.findTransactionsByInvoiceRecipientOrderByTstzDesc(
                     invoiceRecipient
             );

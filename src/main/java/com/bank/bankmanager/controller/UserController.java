@@ -1,15 +1,15 @@
 package com.bank.bankmanager.controller;
 
+import com.bank.bankmanager.domain.Role;
 import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -29,7 +29,7 @@ public class UserController {
         model.addAttribute("title", "Users list");
         model.addAttribute("user", user);
         model.addAttribute("users", userService.getAllUser());
-        return "user";
+        return "admin/users";
     }
 
     @GetMapping("profile")
@@ -49,6 +49,7 @@ public class UserController {
             @RequestParam("password2") String password2,
             Model model
     ) {
+        model.addAttribute("title", user.getUsername() + " profile");
         if (userService.updateProfile(password, password2, user)) {
             model.addAttribute("success", "User updated.");
             return "userProfile";
@@ -59,4 +60,32 @@ public class UserController {
         }
 
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("{id}/profile")
+    public String profileView(
+            @AuthenticationPrincipal User user,
+            @PathVariable(name = "id") User userView,
+            Model model
+    ) {
+        model.addAttribute("title", userView.getUsername() + " profile");
+        model.addAttribute("user", user);
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("userView", userView);
+        return "admin/user";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("edit")
+    public String edit(
+            @RequestParam("id") User user,
+            @RequestParam Map<String, String> form
+    ) {
+        if (userService.edit(user, form)) {
+            return "redirect:" + user.getId() + "/profile?save";
+        } else {
+            return "redirect:" + user.getId() + "/profile?error";
+        }
+    }
+
 }

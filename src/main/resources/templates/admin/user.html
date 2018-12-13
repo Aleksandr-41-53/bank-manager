@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="fragments/assets :: header"></head>
+
+<body>
+
+<nav th:replace="fragments/navs :: navbar"></nav>
+
+<div class="container mt-5 bg-light p-5">
+
+    <div th:if="${param.save}" class="alert alert-success" role="alert">
+        Profile save.
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Profile don't save.
+    </div>
+
+    <h3 th:text="${userView.username} + ', profile'"></h3>
+
+    <form method="post" th:action="@{/user/edit}" th:object="${userView}">
+
+        <div class="form-group" hidden>
+            <label for="username">Id</label>
+            <input type="text" name="id" class="form-control" id="id" placeholder="Id" th:value="*{id}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" id="username" placeholder="Username" th:value="*{username}">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <div class="form-group col-6">
+                <label for="password2">Confirm password</label>
+                <input type="password" name="password2" class="form-control" id="password2" placeholder="Confirm password">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-4">
+                <label for="firstName">First name</label>
+                <input class="form-control" type="text" name="firstName" id="firstName" placeholder="First name" th:value="*{firstName}">
+            </div>
+            <div class="form-group col-4">
+                <label for="lastName">Last name</label>
+                <input class="form-control" type="text" name="lastName" id="lastName" placeholder="Last name" th:value="*{lastName}">
+            </div>
+            <div class="form-group col-4">
+                <label for="secondName">Second name</label>
+                <input class="form-control" type="text" name="secondName" id="secondName" placeholder="Second name" th:value="*{secondName}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" name="address" class="form-control" id="address" placeholder="Address" th:value="*{address}">
+        </div>
+        <div class="row">
+            <div class="col col-6">
+                <label for="roles">Roles</label>
+                <div id="roles">
+                    <div th:each="role : ${roles}" class="form-check form-check-inline mb-3">
+                        <input th:name="${role}" th:checked="${#sets.contains(userView.roles,role)}" class="form-check-input" type="checkbox" th:id="${role} + 'Checkbox'">
+                        <label class="form-check-label" th:for="${role} + 'Checkbox'" th:text="${role}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-6">
+                <label for="active">Active</label>
+                <div id="activeLabel">
+                    <div class="form-check form-check-inline mb-3">
+                        <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="*{active}">
+                        <label class="form-check-label" for="active">Active</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+
+    </form>
+
+</div>
+
+<div th:replace="fragments/assets :: script"></div>
+
+</body>
+
+</html>
