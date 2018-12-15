@@ -16,6 +16,18 @@
         <form id="search" th:action="@{/transaction/all}" name="search" method="get">
 
             <div class="row">
+                <div class="col col-12">
+                    <div class="form-group mr-sm-1 mb-2">
+                        <label for="searchUser">User</label>
+                        <select class="custom-select" name="searchUser" id="searchUser">
+                            <option value="" selected>Username</option>
+                            <option th:each="u : ${users}" th:value="${u.id}" th:text="'id:'+${u.id}+' '+${u.username}+' '+${u.firstName}+' '+${u.lastName}+' '+${u.secondName}" th:selected="${u.id == searchUser?.id} ? true"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col col-6">
                     <div class="form-group mr-sm-1 mb-2">
                         <label for="from">From</label>

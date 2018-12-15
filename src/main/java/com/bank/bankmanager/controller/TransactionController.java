@@ -1,9 +1,11 @@
 package com.bank.bankmanager.controller;
 
 import com.bank.bankmanager.domain.Invoice;
+import com.bank.bankmanager.domain.Transaction;
 import com.bank.bankmanager.domain.User;
 import com.bank.bankmanager.service.InvoiceService;
 import com.bank.bankmanager.service.TransactionService;
+import com.bank.bankmanager.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -21,10 +24,16 @@ import java.util.Map;
 public class TransactionController {
     private final TransactionService transactionService;
     private final InvoiceService invoiceService;
+    private final UserService userService;
 
-    public TransactionController(TransactionService transactionService, InvoiceService invoiceService) {
+    public TransactionController(
+            TransactionService transactionService,
+            InvoiceService invoiceService,
+            UserService userService
+    ) {
         this.transactionService = transactionService;
         this.invoiceService = invoiceService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -72,6 +81,7 @@ public class TransactionController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("all")
     public String all(
+            @RequestParam(value = "searchUser", defaultValue = "") User searchUser,
             @RequestParam(value = "from", defaultValue = "") Invoice invoiceSender,
             @RequestParam(value = "to", defaultValue = "") Invoice invoiceRecipient,
             @RequestParam(value = "dateOn", defaultValue = "") String dateOn,
@@ -79,16 +89,31 @@ public class TransactionController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
+        // Create sender & recipient search data
+        List<Long> fromId;
+        List<Long> toId;
+        if (searchUser != null) {
+            fromId = transactionService.getDistinctByInvoiceSenderIdByUserOrderByASC(searchUser);
+            toId = transactionService.getDistinctByInvoiceRecipientIdByUserOrderByASC(searchUser);
+        } else {
+            fromId = transactionService.getDistinctInvoiceSenderAll();
+            toId = transactionService.getDistinctInvoiceRecipientAll();
+        }
+
+        // Data for form
+        model.addAttribute("searchUser", searchUser);
         model.addAttribute("searchFrom", invoiceSender);
         model.addAttribute("searchTo", invoiceRecipient);
         model.addAttribute("dateOn", dateOn);
         model.addAttribute("dateOff", dateOff);
 
+        // body transaction
         model.addAttribute("title", "All Transactions");
         model.addAttribute("user", user);
-        model.addAttribute("fromId", transactionService.getDistinctInvoiceSenderAll());
-        model.addAttribute("toId", transactionService.getDistinctInvoiceRecipientAll());
-        model.addAttribute("transactions", transactionService.searchTransaction(invoiceSender, invoiceRecipient, dateOn, dateOff));
+        model.addAttribute("users", userService.getAllUser());
+        model.addAttribute("fromId", fromId);
+        model.addAttribute("toId", toId);
+        model.addAttribute("transactions", transactionService.searchTransaction(searchUser, invoiceSender, invoiceRecipient, dateOn, dateOff));
         return "admin/transactions";
     }
 

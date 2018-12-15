@@ -27,3 +27,8 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+# Docker file
+.dockerignore
+docker-compose.yml
+Dockerfile
